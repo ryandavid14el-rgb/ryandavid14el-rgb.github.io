@@ -1,11 +1,12 @@
-# Word Unscrambler v2
+# Word Unscrambler v3
 
-This version uses a much larger English word list (about 117227 alphabetic entries, 2–15 letters) instead of the tiny starter list.
-
-The included word list is derived from the CMU Pronouncing Dictionary via the `cmudict` package. Before commercial deployment, review and retain the applicable CMU dictionary license/notice.
+A static word unscrambler/anagram solver for GitHub Pages.
 
 Files:
-- index.html
-- wordlist.js
+- index.html — main solver
+- wordlist.js — large dictionary
+- style.css — shared styling
+- about.html, privacy.html, terms.html — supporting pages
+- robots.txt, sitemap.xml, 404.html, .nojekyll
 
-Upload both files to the root of your GitHub Pages repository, replacing the old index.html and adding wordlist.js.
+The dictionary is derived from the CMU Pronouncing Dictionary through the `cmudict` package. Review and retain the applicable dictionary license/notice before commercial use.
