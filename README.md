@@ -1,13 +1,11 @@
-# Word Unscrambler — starter version
+# Word Unscrambler v2
 
-Open `index.html` in a browser. No server or paid service is required.
+This version uses a much larger English word list (about 117227 alphabetic entries, 2–15 letters) instead of the tiny starter list.
 
-## Before publishing
-- Replace the example canonical URL in `index.html` with your real domain.
-- Replace the small starter dictionary with a properly licensed word list.
-- Add a real privacy policy and terms before enabling analytics/advertising.
-- Do not use incentivized ad clicks or artificial traffic.
-- Add your monetization provider only after checking its payout and crypto-support rules.
+The included word list is derived from the CMU Pronouncing Dictionary via the `cmudict` package. Before commercial deployment, review and retain the applicable CMU dictionary license/notice.
 
-## Free hosting
-This static site can be hosted on a free static hosting service. A custom domain can be added later when you have funds.
+Files:
+- index.html
+- wordlist.js
+
+Upload both files to the root of your GitHub Pages repository, replacing the old index.html and adding wordlist.js.

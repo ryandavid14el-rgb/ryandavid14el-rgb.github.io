@@ -59,7 +59,8 @@ footer{text-align:center;padding:30px 10px;color:#748096;font-size:.9rem}
 </div>
 
 <script>
-const WORDS = `able about above act action add after again age ago air all also an and animal answer any apple area arm around as ask at away back bad ball bank base be bear beat beauty because become bed been before began begin being best better between big bird black blue book both box boy bring build business but buy by call came can car care carry case cat cause change children city class clear close cold come common could country course cut day did different do down draw dream drive each early earth easy eat end enough even every eye face family far fast father feel few find first fish five follow food for form found four free friend from full game gave get girl give go good got great green ground group grow had hand happen happy hard has have he head hear help her here high him his home house how however idea if important in into is it its keep kind know large last late later laugh learn leave left less let letter life light like line little live long look lot love made make man many may me mean men might mile mind minute miss more most mother move much must my name near need never new next night no not nothing now number of off often old on once one only open or other our out over own page part people place play point put question quick read real right room run said same saw say school sea second see seem sentence set seven she should show side since six small so some something soon sound still story such take tell ten than that the their them then there these they thing think this those three through time to together too took town tree try two under until up us use very want war was water way we well went were what when where which while who why will with word work world would write year yes you your listen silent enlist inlets stone tones notes below bowels state taste test seat eats team meat tame rate tear ear ate are tea sea star arts rats`.split(/\s+/);
+/* Large dictionary loaded from wordlist.js */
+
 const sorted = [...new Set(WORDS.map(w=>w.toLowerCase()).filter(Boolean))];
 
 function canMake(word, letters){
@@ -87,5 +88,7 @@ document.getElementById('letters').addEventListener('keydown',e=>{if(e.key==='En
 document.getElementById('length').onchange=solve;
 document.getElementById('clear').onclick=()=>{document.getElementById('letters').value='';document.getElementById('results').innerHTML='';document.getElementById('status').textContent='Enter letters to begin.';};
 </script>
+<script src="wordlist.js"></script>
+<script>const sorted = [...new Set(WORDS)];</script>
 </body>
 </html>
