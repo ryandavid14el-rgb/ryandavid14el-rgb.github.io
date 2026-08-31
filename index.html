@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Unscrambler — Unscramble Letters & Find Words</title>
+<meta name="description" content="Free word unscrambler and anagram solver. Unscramble letters instantly and find possible words by length.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://example.com/word-unscrambler">
+<style>
+:root{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#172033;background:#f5f7fb}
+*{box-sizing:border-box} body{margin:0}.wrap{max-width:920px;margin:auto;padding:28px 18px}
+header{text-align:center;padding:42px 10px 25px} h1{font-size:clamp(2rem,6vw,3.5rem);margin:0 0 12px} .lead{font-size:1.08rem;color:#5c667a}
+.card{background:white;border:1px solid #e2e7f0;border-radius:18px;padding:22px;box-shadow:0 8px 28px rgba(23,32,51,.06)}
+.row{display:flex;gap:10px;flex-wrap:wrap} input,button,select{font:inherit;border-radius:12px;padding:13px 15px;border:1px solid #ccd3df} input{flex:1;min-width:220px}button{background:#172033;color:white;border-color:#172033;cursor:pointer;font-weight:700}button.secondary{background:white;color:#172033}
+.controls{margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.controls label{color:#59657a;font-size:.95rem}
+#status{margin:18px 0 8px;color:#59657a}.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:12px}
+.word{padding:14px;border:1px solid #e2e7f0;border-radius:12px;background:#fafbfe;font-weight:700;text-align:center}
+.info{margin-top:28px}.info h2{margin-top:0}.muted{color:#687389;font-size:.94rem}
+footer{text-align:center;padding:30px 10px;color:#748096;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Word Unscrambler</h1>
+<p class="lead">Unscramble letters instantly and find words you can make.</p>
+</header>
+
+<main class="card">
+<div class="row">
+<input id="letters" aria-label="Letters to unscramble" placeholder="Enter scrambled letters, e.g. listen" autocomplete="off">
+<button id="solve">Unscramble</button>
+</div>
+<div class="controls">
+<label for="length">Word length</label>
+<select id="length">
+<option value="all">Any</option><option value="3">3</option><option value="4">4</option>
+<option value="5">5</option><option value="6">6</option><option value="7">7</option>
+<option value="8">8</option><option value="9">9</option><option value="10">10+</option>
+</select>
+<button class="secondary" id="clear">Clear</button>
+</div>
+<div id="status">Enter letters to begin.</div>
+<div id="results" class="results" aria-live="polite"></div>
+</main>
+
+<section class="card info">
+<h2>How to use the word unscrambler</h2>
+<p>Type your scrambled letters and select a word length. The tool checks its built-in word list and shows words that can be formed from the letters you entered.</p>
+<h2>Word Unscrambler FAQ</h2>
+<h3>What is a word unscrambler?</h3>
+<p>A word unscrambler rearranges a set of letters to find valid words that can be made from them.</p>
+<h3>Is this word unscrambler free?</h3>
+<p>Yes. This first version runs directly in your browser and does not require an account.</p>
+<p class="muted">Tip: For the production version, connect a larger licensed dictionary and add pages for anagram solver, words from letters, and Scrabble-style searches.</p>
+</section>
+<footer>Free Word Unscrambler • Built for fast, simple word solving</footer>
+</div>
+
+<script>
+const WORDS = `able about above act action add after again age ago air all also an and animal answer any apple area arm around as ask at away back bad ball bank base be bear beat beauty because become bed been before began begin being best better between big bird black blue book both box boy bring build business but buy by call came can car care carry case cat cause change children city class clear close cold come common could country course cut day did different do down draw dream drive each early earth easy eat end enough even every eye face family far fast father feel few find first fish five follow food for form found four free friend from full game gave get girl give go good got great green ground group grow had hand happen happy hard has have he head hear help her here high him his home house how however idea if important in into is it its keep kind know large last late later laugh learn leave left less let letter life light like line little live long look lot love made make man many may me mean men might mile mind minute miss more most mother move much must my name near need never new next night no not nothing now number of off often old on once one only open or other our out over own page part people place play point put question quick read real right room run said same saw say school sea second see seem sentence set seven she should show side since six small so some something soon sound still story such take tell ten than that the their them then there these they thing think this those three through time to together too took town tree try two under until up us use very want war was water way we well went were what when where which while who why will with word work world would write year yes you your listen silent enlist inlets stone tones notes below bowels state taste test seat eats team meat tame rate tear ear ate are tea sea star arts rats`.split(/\s+/);
+const sorted = [...new Set(WORDS.map(w=>w.toLowerCase()).filter(Boolean))];
+
+function canMake(word, letters){
+ const a={}; for(const c of letters)a[c]=(a[c]||0)+1;
+ const b={}; for(const c of word)b[c]=(b[c]||0)+1;
+ return Object.keys(b).every(c=>(a[c]||0)>=b[c]);
+}
+function solve(){
+ const letters=document.getElementById('letters').value.toLowerCase().replace(/[^a-z]/g,'');
+ const filter=document.getElementById('length').value;
+ const results=document.getElementById('results'), status=document.getElementById('status');
+ results.innerHTML='';
+ if(!letters){status.textContent='Enter letters to begin.';return;}
+ let matches=sorted.filter(w=>canMake(w,letters));
+ if(filter!=='all'){
+   const n=Number(filter); matches=matches.filter(w=>n===10?w.length>=10:w.length===n);
+ }
+ matches.sort((a,b)=>b.length-a.length||a.localeCompare(b));
+ status.textContent=`Found ${matches.length} possible word${matches.length===1?'':'s'} from "${letters}".`;
+ if(!matches.length){results.innerHTML='<div class="muted">No matches in this starter dictionary. Try different letters or use a shorter word length.</div>';return;}
+ for(const w of matches.slice(0,200)){const d=document.createElement('div');d.className='word';d.textContent=w;results.appendChild(d);}
+}
+document.getElementById('solve').onclick=solve;
+document.getElementById('letters').addEventListener('keydown',e=>{if(e.key==='Enter')solve()});
+document.getElementById('length').onchange=solve;
+document.getElementById('clear').onclick=()=>{document.getElementById('letters').value='';document.getElementById('results').innerHTML='';document.getElementById('status').textContent='Enter letters to begin.';};
+</script>
+</body>
+</html>
